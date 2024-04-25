@@ -117,3 +117,18 @@ jobs:
             docker stop $IMAGE_NAME
             docker rm $IMAGE_NAME
             docker run -d --name $IMAGE_NAME ghcr.io/${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
+
+
+  build_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Update Submodule
+        run: |
+          git submodule update --remote --merge
+  
+      - name: Run submodule workflow
+        uses: .github/workflow
